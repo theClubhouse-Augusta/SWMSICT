@@ -14,3 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::any('{path?}', 'MainController@index')->where("path", ".+");
+
+Route::post('storeUser', 'UsersController@store');
+Route::post('storeInfo', 'InfoController@store');
