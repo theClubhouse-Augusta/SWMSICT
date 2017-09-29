@@ -20,10 +20,6 @@ class Filters extends Migration
           $table->boolean('financialSupport')->nullable();
           $table->boolean('locationAvailable')->nullable();
           $table->boolean('repAvailable')->nullable();
-          $table->boolean('feesLowToHigh')->nullable();
-          $table->boolean('feesHighToLow')->nullable();
-          $table->boolean('fundPerfBestToWorst')->nullable();
-          $table->boolean('fundPerfWorstToBest')->nullable();
           $table->timestamps();
       });
     }

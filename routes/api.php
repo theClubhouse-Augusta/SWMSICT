@@ -13,4 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('saveInvestmentInfo', 'InfoController@saveInvestmentInfo');
+Route::get('displayResults', 'InfoController@displayResults');
+
 Route::any('{path?}', 'MainController@index')->where("path", ".+");
