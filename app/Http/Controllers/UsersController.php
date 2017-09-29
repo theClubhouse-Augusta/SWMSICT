@@ -14,17 +14,19 @@ use App\User;
 
 class UsersController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('jwt.auth', ['only' => ['getUser', 'signOut']]);
+  }
+
   public function signUp(Request $request)
   {
     $rules = [
-      /*'userName'=> 'required'*/
       'email'=> 'required'
       'password'=> 'required'
       'firstName'=> 'required'
       'lastName'=> 'required'
       'phone_num'=> 'required'
-      'age'=> 'required'
-
     ];
 
     $validator = Validator::make(Purifier::clean($request->all()), $rules);
@@ -33,8 +35,18 @@ class UsersController extends Controller
       return Response::json(['error' => 'Please fill out all fields.']);
     }/*End If.*/
 
-    /*$username = $request->input('username');*/
     $password = $request->input('password');
+    $email = $request->input('email');
+    $firstName = $request->input('firstName');
+    $lastName = $request->input('lastName');
+    $phone_num = $request->input('phone_num');
+    $email = $request->input('email');
+    $address01 = $request->input('address01');
+    $address02 = $request->input('address02');
+    $city = $request->input('city');
+    $state = $request->input('state');
+    $zip = $request->input('zip');
+    $allow_Contact = $request->input('allow_Contact');
 
     /*checks to see if username already exists.*/
     $duplicate = User::where('email', '=', $email)->select('id')->first();
@@ -42,28 +54,12 @@ class UsersController extends Controller
     {
       $password = Hash::make($password);
 
-      $user = new User;
-
-      /*$user->username = $username;*/
-      $user->password = $password;
-
-      $email = $request->input('email');
-      $firstName = $request->input('firstName');
-      $lastName = $request->input('lastName');
-      $phone_num = $request->input('phone_num');
-      $email = $request->input('email');
-      $address01 = $request->input('address01');
-      $address02 = $request->input('address02');
-      $city = $request->input('city');
-      $state = $request->input('state');
-      $zip = $request->input('zip');
-      $allow_Contact = $request->input('allow_Contact');
-
+      $users = new User;
+      $users->password = $password;
       $users->email = $email;
       $users->firstName = $firstName;
       $users->lastName = $lastName;
       $users->phone_num = $phone_num;
-      $users->age = $age;
       $users->address01 = $address01;
       $users->address02 = $address02;
       $users->city = $city;
@@ -71,7 +67,7 @@ class UsersController extends Controller
       $users->zip = $zip;
       $users->allow_Contact = $allow_Contact;
 
-      $user->save();
+      $users->save();
 
       return Response::json(['success' => 'User Signed Up. Welcome Aboard!']);
     }/*End If.*/
@@ -102,14 +98,12 @@ class UsersController extends Controller
 
     $token = JWTAuth::attempt($credentials);
 
-    if($token ==  false)
+    if($token ===  false)
     {
       return Response::json(['error' => 'Invalid Credentials']);
     }/*End If.*/
     else
     {
-      $user = User::where('email', '=', $email)->first();
-      $user->save();
       return Response::json(['token' => $token]);
     }/*End Else.*/
   }/*End Function.*/
@@ -119,22 +113,16 @@ class UsersController extends Controller
     $user = Auth::user();
     $user = User::find($user->id);
 
-    return Response::json(['user' => $user]);
-  }
+    $firstName = $user->firstName;
+
+    return Response::json(['firstName' => $firstName]);
+  }/*End Function.*/
 
   public function signOut()
   {
-    $user = Auth::user();
-    $user = User::find($user->id);
-
-    $user->save();
+    JWTAuth::invalidate();
 
     return Response::json(['success' => 'goodbye']);
-  }
-
-
-
+  }/*End Function.*/
 
 }/* End Class. */
-
-===================================
