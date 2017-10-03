@@ -10,6 +10,7 @@ use Purifier;
 class InfoController extends Controller
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
   public function saveOptions(Request $request)
   {
     $rules = [
@@ -59,6 +60,8 @@ class InfoController extends Controller
   }
 }
 =======
+=======
+>>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
   public function store(Request $request)
   {
     $rules = [
@@ -117,4 +120,7 @@ class UsersController extends Controller
 {
 
   }
+<<<<<<< HEAD
+>>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
+=======
 >>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
