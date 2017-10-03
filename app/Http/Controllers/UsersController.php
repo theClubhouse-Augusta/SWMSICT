@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+
+class UsersController extends Controller
+{
+    //
+}
+=======
 use Illuminate\Support\Facades\Validator;
 use Response;
 use Purifier;
@@ -147,3 +154,4 @@ class UsersController extends Controller
   }/*End Function.*/
 
 }/* End Class. */
+>>>>>>> fea15d924fe02b978cc3edec0a04034318ed86b3

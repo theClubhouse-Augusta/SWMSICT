@@ -7,10 +7,17 @@ use Illuminate\Support\Facades\Validator;
 use Response;
 use Purifier;
 
+<<<<<<< HEAD
+use App\Option;
+
+class InfoController extends Controller
+{
+=======
 class InfoController extends Controller
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+>>>>>>> fea15d924fe02b978cc3edec0a04034318ed86b3
   public function saveOptions(Request $request)
   {
     $rules = [
@@ -23,7 +30,11 @@ class InfoController extends Controller
     {
       return Response::json(['error' => 'Missing fields']);
     }
+<<<<<<< HEAD
+
+=======
     /*Test2*/
+>>>>>>> fea15d924fe02b978cc3edec0a04034318ed86b3
     $stocks = $request->input('stocks');
     $bonds = $request->input('bonds');
     $mutualFunds = $request->input('mutualFunds');
@@ -59,6 +70,8 @@ class InfoController extends Controller
 
   }
 }
+<<<<<<< HEAD
+=======
 =======
 =======
 >>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
@@ -124,3 +137,4 @@ class UsersController extends Controller
 >>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
 =======
 >>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
+>>>>>>> fea15d924fe02b978cc3edec0a04034318ed86b3
