@@ -16,6 +16,7 @@ class Companies extends Migration
       Schema::create('companies', function (Blueprint $table) {
           $table->increments('id');
           $table->string('name');
+          $table->longText('description');
           $table->string('website');
           $table->timestamps();
       });
