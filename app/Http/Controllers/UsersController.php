@@ -16,16 +16,27 @@ class UsersController extends Controller
 {
   public function __construct()
   {
+<<<<<<< HEAD
     $this->middleware('jwt.auth', ['only' => ['signIn', 'getUser', 'signOut']]);
+=======
+    $this->middleware('jwt.auth', ['only' => ['getUser', 'signOut']]);
+>>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
   }
 
   public function signUp(Request $request)
   {
     $rules = [
+<<<<<<< HEAD
       'email'=> 'required',
       'password'=> 'required',
       'firstName'=> 'required',
       'lastName'=> 'required',
+=======
+      'email'=> 'required'
+      'password'=> 'required'
+      'firstName'=> 'required'
+      'lastName'=> 'required'
+>>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
       'phone_num'=> 'required'
     ];
 
