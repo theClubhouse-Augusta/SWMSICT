@@ -19,7 +19,7 @@ class Products extends Migration
           $table->string('name');
           $table->longText('summary');
           $table->integer('riskLevel');
-          $table->integer('fees');
+          $table->string('fees');
           $table->string('performance');
           $table->integer('minInvestment');
           $table->boolean('physicalLocationAvailable');
