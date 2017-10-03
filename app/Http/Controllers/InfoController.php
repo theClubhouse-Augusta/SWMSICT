@@ -21,7 +21,7 @@ class InfoController extends Controller
     {
       return Response::json(['error' => 'Missing fields']);
     }
-
+    /*Test*/
     $stocks = $request->input('stocks');
     $bonds = $request->input('bonds');
     $mutualFunds = $request->input('mutualFunds');
