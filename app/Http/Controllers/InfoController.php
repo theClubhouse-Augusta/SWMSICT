@@ -9,6 +9,59 @@ use Purifier;
 
 class InfoController extends Controller
 {
+<<<<<<< HEAD
+<<<<<<< HEAD
+  public function saveOptions(Request $request)
+  {
+    $rules = [
+      'minInvestment'=> 'required',
+      'riskLevel'=> 'required'
+    ];
+
+    $validator = Validator::make(Purifier::clean($request->all()), $rules);
+    if($validator->fails())
+    {
+      return Response::json(['error' => 'Missing fields']);
+    }
+    /*Test2*/
+    $stocks = $request->input('stocks');
+    $bonds = $request->input('bonds');
+    $mutualFunds = $request->input('mutualFunds');
+    $etfs = $request->input('etfs');
+    $indexFunds = $request->input('indexFunds');
+    $retirement = $request->input('retirement');
+    $minInvestment = $request->input('minInvestment');
+    $riskLevel = $request->input('riskLevel');
+
+    $options = new Option;
+
+    $options->stocks = $stocks;
+    $options->bonds = $bonds;
+    $options->mutualFunds = $mutualFunds;
+    $options->etfs = $etfs;
+    $options->indexFunds = $indexFunds;
+    $options->retirement = $retirement;
+    $options->minInvestment = $minInvestment;
+    $options->riskLevel = $riskLevel;
+    $options->save();
+
+    return Response::json(['success' => "Data saved"]);
+  }
+
+
+  public function displayResults()
+  {
+
+  }
+
+  public function filterResults()
+  {
+
+  }
+}
+=======
+=======
+>>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
   public function store(Request $request)
   {
     $rules = [
@@ -67,3 +120,7 @@ class UsersController extends Controller
 {
 
   }
+<<<<<<< HEAD
+>>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
+=======
+>>>>>>> 58e38b6c32ac208efef1f5633f6eab3685d3c39d
