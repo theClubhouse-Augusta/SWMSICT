@@ -24,6 +24,13 @@ class Products extends Migration
           $table->integer('minInvestment');
           $table->boolean('physicalLocationAvailable');
           $table->boolean('specialOffersAvailable');
+          $table->boolean('show');
+          $table->boolean('isStock');
+          $table->boolean('isBond');
+          $table->boolean('isMutualFund');
+          $table->boolean('isETF');
+          $table->boolean('isRetirement');
+          $table->boolean('isIndexFund');
           $table->timestamps();
       });
     }

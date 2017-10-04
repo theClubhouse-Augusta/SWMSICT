@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
 use Purifier;
+use App\Product;
+use App\Option;
 
 class InfoController extends Controller
 {
-  public function saveOptions(Request $request)
+  public function getProducts(Request $request)
   {
     $rules = [
       'minInvestment'=> 'required',
@@ -19,41 +21,63 @@ class InfoController extends Controller
     $validator = Validator::make(Purifier::clean($request->all()), $rules);
     if($validator->fails())
     {
-      return Response::json(['error' => 'Missing fields']);
+      return Response::json(['error' => "The fields Risk level and Minimum investmente are required"]);
     }
 
-    $stocks = $request->input('stocks');
-    $bonds = $request->input('bonds');
-    $mutualFunds = $request->input('mutualFunds');
-    $etfs = $request->input('etfs');
-    $indexFunds = $request->input('indexFunds');
-    $retirement = $request->input('retirement');
-    $minInvestment = $request->input('minInvestment');
+    $userID = $request->input('userID');
     $riskLevel = $request->input('riskLevel');
+    $minInvestment = $request->input('minInvestment');
+    $isStock = $request->input('isStock');
+    $isBond = $request->input('isBond');
+    $isMutualFund = $request->input('isMutualFund');
+    $isETF = $request->input('isETF');
+    $isRetirement = $request->input('isRetirement');
+    $isIndexFund = $request->input('isIndexFund');
 
-    $options = new Option;
+    $getProducts = Product::leftJoin('companies', 'companyID', '=', 'companies.id');
 
-    $options->stocks = $stocks;
-    $options->bonds = $bonds;
-    $options->mutualFunds = $mutualFunds;
-    $options->etfs = $etfs;
-    $options->indexFunds = $indexFunds;
-    $options->retirement = $retirement;
-    $options->minInvestment = $minInvestment;
-    $options->riskLevel = $riskLevel;
-    $options->save();
+    if ($riskLevel != NULL) {
+      $getProducts->where('products.riskLevel', '=', $riskLevel);
+    }
+    if ($minInvestment != NULL) {
+      $getProducts->where('products.minInvestment', '<', $minInvestment);
+    }
+    if($isStock != NULL) {
+      $getProducts->where('products.isStock', '=', $isStock);
+    }
+    if($isBond != NULL) {
+      $getProducts->where('products.isBond', '=', $isBond);
+    }
+    if($isMutualFund != NULL) {
+      $getProducts->where('products.isMutualFund', '=', $isMutualFund);
+    }
+    if($isETF != NULL) {
+      $getProducts->where('products.isETF', '=', $isETF);
+    }
+    if($isRetirement != NULL) {
+      $getProducts->where('products.isRetirement', '=', $isRetirement);
+    }
+    if($isIndexFund != NULL) {
+      $getProducts->where('products.isIndexFund', '=', $isIndexFund);
+    }
+    $getProducts = $getProducts->select('companies.name', 'companies.description', 'companies.website','products.id', 'products.name', 'products.summary', 'products.riskLevel', 'products.fees', 'products.performance',
+    'products.minInvestment', 'products.physicalLocationAvailable', 'products.specialOffersAvailable', 'products.isStock', 'products.isBond', 'products.isMutualFund', 'products.isETF', 'products.isRetirement', 'products.isIndexFund')
+    ->orderby('products.name', 'ASC')
+    ->get();
 
-    return Response::json(['success' => "Data saved"]);
-  }
+    $option = new Option;
+    $option->userID = $userID;
+    $option->stocks = $isStock;
+    $option->bonds = $isBond;
+    $option->mutualFunds = $isMutualFund;
+    $option->exTradeFunds = $isETF;
+    $option->indexFunds = $isIndexFund;
+    $option->retirement=$isRetirement;
+    $option->minInvestment=$minInvestment;
+    $option->riskLevel=$riskLevel;
+    $option->save();
 
+    return Response::json(['getProducts' => $getProducts, 'userID' => $userID]);
+}
 
-  public function displayResults()
-  {
-
-  }
-
-  public function filterResults()
-  {
-
-  }
 }
