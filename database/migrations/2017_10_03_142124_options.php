@@ -16,12 +16,12 @@ class Options extends Migration
       Schema::create('options', function (Blueprint $table) {
           $table->increments('id');
           $table->integer('userID');
-          $table->boolean('stocks')->nullable();
-          $table->boolean('bonds')->nullable();
-          $table->boolean('mutualFunds')->nullable();
-          $table->boolean('exTradeFunds')->nullable();
-          $table->boolean('indexFunds')->nullable();
-          $table->boolean('retirement')->nullable();
+          $table->boolean('isStock')->nullable();
+          $table->boolean('isBond')->nullable();
+          $table->boolean('isMutualFund')->nullable();
+          $table->boolean('isETF')->nullable();
+          $table->boolean('isIndexFund')->nullable();
+          $table->boolean('isRetirement')->nullable();
           $table->integer('minInvestment');
           $table->integer('riskLevel');
           $table->timestamps();

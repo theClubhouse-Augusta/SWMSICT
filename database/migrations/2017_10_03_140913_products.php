@@ -24,7 +24,6 @@ class Products extends Migration
           $table->integer('minInvestment');
           $table->boolean('physicalLocationAvailable');
           $table->boolean('specialOffersAvailable');
-          $table->boolean('show');
           $table->boolean('isStock');
           $table->boolean('isBond');
           $table->boolean('isMutualFund');

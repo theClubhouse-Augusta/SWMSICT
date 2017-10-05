@@ -14,6 +14,7 @@ class InfoController extends Controller
   public function getProducts(Request $request)
   {
     $rules = [
+      'userID' => 'required',
       'minInvestment'=> 'required',
       'riskLevel'=> 'required'
     ];
@@ -40,7 +41,7 @@ class InfoController extends Controller
       $getProducts->where('products.riskLevel', '=', $riskLevel);
     }
     if ($minInvestment != NULL) {
-      $getProducts->where('products.minInvestment', '<', $minInvestment);
+      $getProducts->where('products.minInvestment', '<=', $minInvestment);
     }
     if($isStock != NULL) {
       $getProducts->where('products.isStock', '=', $isStock);
@@ -67,17 +68,17 @@ class InfoController extends Controller
 
     $option = new Option;
     $option->userID = $userID;
-    $option->stocks = $isStock;
-    $option->bonds = $isBond;
-    $option->mutualFunds = $isMutualFund;
-    $option->exTradeFunds = $isETF;
-    $option->indexFunds = $isIndexFund;
-    $option->retirement=$isRetirement;
+    $option->isStock = $isStock;
+    $option->isBond = $isBond;
+    $option->isMutualFund = $isMutualFund;
+    $option->isETF = $isETF;
+    $option->isIndexFund = $isIndexFund;
+    $option->isRetirement=$isRetirement;
     $option->minInvestment=$minInvestment;
     $option->riskLevel=$riskLevel;
     $option->save();
 
-    return Response::json(['getProducts' => $getProducts, 'userID' => $userID]);
+    return Response::json(['getProducts' => $getProducts, 'userID' => $userID, 'success' => 'Your search has been saved.']);
 }
 
 }
