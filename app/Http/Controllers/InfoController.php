@@ -34,32 +34,41 @@ class InfoController extends Controller
     $isETF = $request->input('isETF');
     $isRetirement = $request->input('isRetirement');
     $isIndexFund = $request->input('isIndexFund');
+    $searchCriteria = [];
 
     $getProducts = Product::leftJoin('companies', 'companyID', '=', 'companies.id');
 
     if ($riskLevel != NULL) {
       $getProducts->where('products.riskLevel', '=', $riskLevel);
+      $searchCriteria[] = $riskLevel;
     }
     if ($minInvestment != NULL) {
-      $getProducts->where('products.minInvestment', '<=', $minInvestment);
+      $getProducts->where('products.minInvestment', '>=', $minInvestment);
+      $searchCriteria[] = $minInvestment;
     }
     if($isStock != NULL) {
       $getProducts->where('products.isStock', '=', $isStock);
+      $searchCriteria[] = 'Stocks';
     }
     if($isBond != NULL) {
-      $getProducts->where('products.isBond', '=', $isBond);
+      $getProducts->orWhere('products.isBond', '=', $isBond);
+      $searchCriteria[] = 'Bonds';
     }
     if($isMutualFund != NULL) {
-      $getProducts->where('products.isMutualFund', '=', $isMutualFund);
+      $getProducts->orWhere('products.isMutualFund', '=', $isMutualFund);
+      $searchCriteria[] = 'Mutual funds';
     }
     if($isETF != NULL) {
       $getProducts->where('products.isETF', '=', $isETF);
+      $searchCriteria[] = 'EX Trade funds';
     }
     if($isRetirement != NULL) {
       $getProducts->where('products.isRetirement', '=', $isRetirement);
+      $searchCriteria[] = 'Retirement';
     }
     if($isIndexFund != NULL) {
       $getProducts->where('products.isIndexFund', '=', $isIndexFund);
+      $searchCriteria[] = 'Index funds';
     }
     $getProducts = $getProducts->select('companies.name', 'companies.description', 'companies.website','products.id', 'products.name', 'products.summary', 'products.riskLevel', 'products.fees', 'products.performance',
     'products.minInvestment', 'products.physicalLocationAvailable', 'products.specialOffersAvailable', 'products.isStock', 'products.isBond', 'products.isMutualFund', 'products.isETF', 'products.isRetirement', 'products.isIndexFund')
@@ -78,7 +87,14 @@ class InfoController extends Controller
     $option->riskLevel=$riskLevel;
     $option->save();
 
-    return Response::json(['getProducts' => $getProducts, 'userID' => $userID, 'success' => 'Your search has been saved.']);
+
+    if (count($getProducts) > 0){
+
+      return Response::json(['getProducts' => $getProducts, 'userID' => $userID, 'message' => 'Your search options have been saved.', 'messageNum' => '1', 'options' => $option, 'searchCriteria' => $searchCriteria]);
+    }
+    else {
+      return Response::json(['getProducts' => '[]', 'message' => 'We currently have no products that match your search criteria', 'messageNum' => '0', 'options' => $option, 'searchCriteria' => $searchCriteria]);
+    }
 }
 
 }
