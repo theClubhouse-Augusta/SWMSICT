@@ -38,14 +38,20 @@ class InfoController extends Controller
 
     $getProducts = Product::leftJoin('companies', 'companyID', '=', 'companies.id');
 
+
+
+
     if ($riskLevel != NULL) {
       $getProducts->where('products.riskLevel', '=', $riskLevel);
       $searchCriteria[] = $riskLevel;
     }
     if ($minInvestment != NULL) {
-      $getProducts->where('products.minInvestment', '>=', $minInvestment);
+      $getProducts->where('products.minInvestment', '<=', $minInvestment);
       $searchCriteria[] = $minInvestment;
     }
+
+
+
     if($isStock != NULL) {
       $getProducts->where('products.isStock', '=', $isStock);
       $searchCriteria[] = 'Stocks';
@@ -59,15 +65,15 @@ class InfoController extends Controller
       $searchCriteria[] = 'Mutual funds';
     }
     if($isETF != NULL) {
-      $getProducts->where('products.isETF', '=', $isETF);
+      $getProducts->orWhere('products.isETF', '=', $isETF);
       $searchCriteria[] = 'EX Trade funds';
     }
     if($isRetirement != NULL) {
-      $getProducts->where('products.isRetirement', '=', $isRetirement);
+      $getProducts->orWhere('products.isRetirement', '=', $isRetirement);
       $searchCriteria[] = 'Retirement';
     }
     if($isIndexFund != NULL) {
-      $getProducts->where('products.isIndexFund', '=', $isIndexFund);
+      $getProducts->orWhere('products.isIndexFund', '=', $isIndexFund);
       $searchCriteria[] = 'Index funds';
     }
     $getProducts = $getProducts->select('companies.name', 'companies.description', 'companies.website','products.id', 'products.name', 'products.summary', 'products.riskLevel', 'products.fees', 'products.performance',
