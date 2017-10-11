@@ -113,8 +113,9 @@ class UsersController extends Controller
     $user = User::find($user->id);
 
     $firstName = $user->firstName;
+    $id = $user ->id;
 
-    return Response::json(['firstName' => $firstName]);
+    return Response::json(['firstName' => $firstName, 'id' => $id]);
   }/*End Function.*/
 
   public function signOut()
