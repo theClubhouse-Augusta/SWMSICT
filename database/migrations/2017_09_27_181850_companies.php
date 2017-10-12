@@ -18,6 +18,7 @@ class Companies extends Migration
           $table->string('name');
           $table->longText('description');
           $table->string('website');
+          $table->string('image');
           $table->timestamps();
       });
     }

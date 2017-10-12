@@ -30,7 +30,7 @@ class InfoController extends Controller
     if (!empty($checkOptions)) {
       $temp = Option::where('userID', '=', $userID)
             ->update(['riskLevel' => $riskLevel, 'minInvestment' => $minInvestment, 'isStock' => $isStock, 'isBond' => $isBond, 'isMutualFund' => $isMutualFund, 'isETF' => $isETF, 'isRetirement' => $isRetirement, 'isIndexFund' => $isIndexFund ]);
-      return Response::json(['success' => 'Your search criteria has been updated.']);
+      return Response::json(['success' => 'Your search criteria has been updated.', 'temp' => $temp]);
     }
     else {
       $option = new Option;
@@ -59,17 +59,7 @@ class InfoController extends Controller
   }
 
 
-
-
-
-
-
-
-
-
-
-
-  public function getProducts(Request $request)
+  public function getProducts(Request $request, $type = "name", $order = "asc")
   {
     $rules = [
       'userID' => 'required',
@@ -96,13 +86,11 @@ class InfoController extends Controller
 
     $getProducts = Product::leftJoin('companies', 'companyID', '=', 'companies.id');
 
-
-
-
     if ($riskLevel != NULL) {
-      $getProducts->where('products.riskLevel', '=', $riskLevel);
+      $getProducts->where('products.riskLevel', '=', 1);
       $searchCriteria[] = $riskLevel;
     }
+
     if ($minInvestment != NULL) {
       $getProducts->where('products.minInvestment', '<=', $minInvestment);
       $searchCriteria[] = $minInvestment;
@@ -110,7 +98,7 @@ class InfoController extends Controller
 
     $getProducts = $getProducts->select('companies.name', 'companies.description', 'companies.website','products.id', 'products.name', 'products.summary', 'products.riskLevel', 'products.fees', 'products.performance',
     'products.minInvestment', 'products.physicalLocationAvailable', 'products.specialOffersAvailable', 'products.isStock', 'products.isBond', 'products.isMutualFund', 'products.isETF', 'products.isRetirement', 'products.isIndexFund')
-    ->orderby('products.name', 'ASC')
+    ->orderby('products.'.$type, $order)
     ->get();
 
     $resultProducts = [];
@@ -122,7 +110,6 @@ class InfoController extends Controller
           $resultProducts[] = $product;
         }
       }
-
       $searchCriteria[] = 'Stocks';
     }
     if($isBond != NULL && $isBond != 0) {
@@ -176,12 +163,12 @@ class InfoController extends Controller
     }
 
 
-    if (count($getProducts) > 0){
-
-      return Response::json(['userID' => $userID, 'message' => 'Your search options have been saved.', 'messageNum' => '1', 'options' => $option, 'searchCriteria' => $searchCriteria, 'resultProducts' => $resultProducts]);
+    if (count($resultProducts) > 0){
+      return Response::json(['messageNum' => '1', 'searchCriteria' => $searchCriteria, 'resultProducts' => $resultProducts]);
     }
     else {
-      return Response::json(['resultProducts' => $resultProducts, 'message' => 'We currently have no products that match your search criteria', 'messageNum' => '0', 'options' => $option, 'searchCriteria' => $searchCriteria]);
+
+      return Response::json(['resultProducts' => $resultProducts, 'message' => 'We currently have no products that match your search criteria', 'messageNum' => '0', 'searchCriteria' => $searchCriteria]);
     }
   }
 

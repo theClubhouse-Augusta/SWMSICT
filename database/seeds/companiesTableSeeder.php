@@ -18,6 +18,7 @@ class companiesTableSeeder extends Seeder
             'name' => 'Vanguard',
             'description' => "Financial Advisor Services - Vanguard Personal Advisor Services, you get it all at a low cost—only 0.30% of your assets under management annually. Once you're enrolled, you can call or email a Vanguard advisor at your convenience. And with our easy-to-use videoconferencing service, you can also video chat with an advisor from the comfort of your own home. Simply schedule an appointment online, anytime.",
             'website' => 'http://www.vanguard.com',
+            'image' => '../../logo-Vanguard.jpg',
       ]);
       DB::table('companies')->insert([
             'name' => 'Charles Schwab',
@@ -25,6 +26,7 @@ class companiesTableSeeder extends Seeder
             Special offers – 500 commission-free trades for two years. After this period, online equity trades will cost an industry-leading $4.95.<br/> 
             No physical location available.",
             'website' => 'http://www.charlesschwab.com',
+            'image' => '../../logo-CharlesSchwab.jpg',
       ]);
       DB::table('companies')->insert([
         'name' => 'Ameritrade',
@@ -32,12 +34,14 @@ class companiesTableSeeder extends Seeder
         Special offers – Trade free for 90-days and get up to $600 cash.<br/> 
         Physical locations – 100+ branches nationwide",
         'website' => 'http://www.ameritrade.com',
+        'image' => '../../logo-Ameritrade.jpg',
       ]);
       DB::table('companies')->insert([
             'name' => 'iShares, by BlackRock',
             'description' => "Physical locations – Offices located on the East and West coast, but financial advisor services primarily conducted online with low-fee structure.<br/>
             Special offers – None.",
             'website' => 'http://www.ishares.com',
+            'image' => '../../logo-iShares.jpg',
       ]);
       DB::table('companies')->insert([
         'name' => 'Voya',
@@ -45,6 +49,7 @@ class companiesTableSeeder extends Seeder
         Special offers – None.<br/> 
         Physical locations – Offices located on the East and West coast, but financial advisor services primarily conducted online with low-fee structure.",
         'website' => 'http://www.voya.com',
+        'image' => '../../logo-Voya.jpg'
       ]);
   }
 }
