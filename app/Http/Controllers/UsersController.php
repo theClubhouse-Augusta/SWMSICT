@@ -40,12 +40,6 @@ class UsersController extends Controller
     $firstName = $request->input('firstName');
     $lastName = $request->input('lastName');
     $phoneNum = $request->input('phoneNum');
-    $address01 = $request->input('address01');
-    $address02 = $request->input('address02');
-    $city = $request->input('city');
-    $state = $request->input('state');
-    $zip = $request->input('zip');
-    $allowContact = $request->input('allowContact');
 
     /*checks to see if username already exists.*/
     $duplicate = User::where('email', '=', $email)->select('id')->first();
@@ -59,12 +53,6 @@ class UsersController extends Controller
       $users->firstName = $firstName;
       $users->lastName = $lastName;
       $users->phoneNum = $phoneNum;
-      $users->address01 = $address01;
-      $users->address02 = $address02;
-      $users->city = $city;
-      $users->state = $state;
-      $users->zip = $zip;
-      $users->allowContact = $allowContact;
 
       $users->save();
 
