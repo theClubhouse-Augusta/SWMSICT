@@ -23,28 +23,39 @@ class InfoController extends Controller
     $isRetirement = $request->input('isRetirement');
     $isIndexFund = $request->input('isIndexFund');
 
-    $option = new Option;
-    $option->userID = $userID;
-    $option->isStock = $isStock;
-    $option->isBond = $isBond;
-    $option->isMutualFund = $isMutualFund;
-    $option->isETF = $isETF;
-    $option->isIndexFund = $isIndexFund;
-    $option->isRetirement=$isRetirement;
-    $option->minInvestment=$minInvestment;
-    $option->riskLevel=$riskLevel;
-    $option->save();
+    $userID = 1;
 
-    return Response::json(['success' => 'saved!']);
+    $checkOptions = Option::where('userID', '=', $userID)->first();
+
+    if (!empty($checkOptions)) {
+      $temp = Option::where('userID', '=', $userID)
+            ->update(['riskLevel' => $riskLevel, 'minInvestment' => $minInvestment, 'isStock' => $isStock, 'isBond' => $isBond, 'isMutualFund' => $isMutualFund, 'isETF' => $isETF, 'isRetirement' => $isRetirement, 'isIndexFund' => $isIndexFund ]);
+      return Response::json(['success' => 'Your search criteria has been updated.']);
+    }
+    else {
+      $option = new Option;
+      $option->userID = $userID;
+      $option->isStock = $isStock;
+      $option->isBond = $isBond;
+      $option->isMutualFund = $isMutualFund;
+      $option->isETF = $isETF;
+      $option->isIndexFund = $isIndexFund;
+      $option->isRetirement=$isRetirement;
+      $option->minInvestment=$minInvestment;
+      $option->riskLevel=$riskLevel;
+      $option->save();
+      return Response::json(['success' => 'Your search criteria has been saved.']);
+    }
+
+
   }
 
   public function collectSearchData(Request $request){
     $userID = $request->input('userID');
 
+    $searchData = Option::where('userID', '=', $userID)->get();
 
-    $searchData = Option::where('userID', '=', $userID);
-
-    return Response::json(['optionsTable' => $optionsTable]);
+    return Response::json(['searchData' => $searchData]);
   }
 
 
