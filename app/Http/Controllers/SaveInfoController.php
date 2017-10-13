@@ -88,7 +88,7 @@ class InfoController extends Controller
     $getProducts = Product::leftJoin('companies', 'companyID', '=', 'companies.id');
 
     if ($riskLevel != NULL) {
-      $getProducts->where('products.riskLevel', '=', $riskLevel);
+      $getProducts->where('products.riskLevel', '=', 1);
       $searchCriteria[] = $riskLevel;
     }
 
@@ -104,72 +104,60 @@ class InfoController extends Controller
 
     $resultProducts = [];
 
-    foreach($getProducts as $key => $product)
-    {
-      if($isStock != NULL && $isStock != 0) {
+    if($isStock != NULL && $isStock != 0) {
+      foreach($getProducts as $key => $product)
+      {
         if($product->isStock == $isStock) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-
-          }
-          if(!in_array('Stocks', $searchCriteria)) {
-            $searchCriteria[] = 'Stocks';
-          }
+          $resultProducts[] = $product;
         }
       }
-      if($isBond != NULL && $isBond != 0) {
-        if($product->isBond == $isBond) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-          }
-          if(!in_array('Bonds', $searchCriteria)) {
-            $searchCriteria[] = 'Bonds';
-          }
-        }
-      }
-      if($isMutualFund != NULL && $isMutualFund != 0) {
-        if($product->isMutualFund == $isMutualFund) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-          }
-          if(!in_array('Mutual funds', $searchCriteria)){
-            $searchCriteria[] = 'Mutual funds';
-          }
-        }
-      }
-      if($isETF != NULL && $isETF != 0) {
-        if($product->isETF == $isETF) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-          }
-          if(!in_array('EX Trade funds', $searchCriteria)){
-            $searchCriteria[] = 'EX Trade funds';
-          }
-        }
-
-      }
-      if($isRetirement != NULL && $isRetirement != 0) {
-        if($product->isRetirement == $isRetirement) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-          }
-          if(!in_array('Retirement', $searchCriteria)){
-            $searchCriteria[] = 'Retirement';
-          }
-        }
-
-      }
-      if($isIndexFund != NULL && $isIndexFund != 0) {
-        if($product->isIndexFund == $isIndexFund) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-            $searchCriteria[] = 'Index funds';
-          }
-        }
-
-      }
+      $searchCriteria[] = 'Stocks';
     }
-
+    if($isBond != NULL && $isBond != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isBond == $isBond) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'Bonds';
+    }
+    if($isMutualFund != NULL && $isMutualFund != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isMutualFund == $isMutualFund) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'Mutual funds';
+    }
+    if($isETF != NULL && $isETF != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isETF == $isETF) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'EX Trade funds';
+    }
+    if($isRetirement != NULL && $isRetirement != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isRetirement == $isRetirement) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'Retirement';
+    }
+    if($isIndexFund != NULL && $isIndexFund != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isIndexFund == $isIndexFund) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'Index funds';
+    }
 
     if (empty($resultProducts)) {
       $resultProducts = $getProducts;
