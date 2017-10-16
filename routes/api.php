@@ -18,8 +18,9 @@ Route::post('signIn', 'UsersController@signIn');
 Route::get('signOut', 'UsersController@signOut');
 Route::get('getUser', 'UsersController@getUser');
 
-Route::post('getProducts', 'InfoController@getProducts');
+Route::post('getProducts/{type}/{order}/{physLoc}/{specOff}', 'InfoController@getProducts');
 Route::post('saveSearchData', 'InfoController@saveSearchData');
 Route::post('collectSearchData', 'InfoController@collectSearchData');
+Route::post('getProducts2', 'InfoController@getProducts2');
 
 Route::any('{path?}', 'MainController@index')->where("path", ".+");

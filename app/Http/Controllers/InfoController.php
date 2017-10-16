@@ -9,6 +9,8 @@ use Purifier;
 use App\Product;
 use App\Option;
 use App\Copmany;
+use App\RiskLevel;
+use App\Package;
 
 class InfoController extends Controller
 {
@@ -60,7 +62,7 @@ class InfoController extends Controller
   }
 
 
-  public function getProducts(Request $request, $type = "name", $order = "asc")
+  public function getProducts(Request $request, $type, $order, $physLoc, $specOff)
   {
     $rules = [
       'userID' => 'required',
@@ -97,10 +99,18 @@ class InfoController extends Controller
       $searchCriteria[] = $minInvestment;
     }
 
+    if($physLoc == 1){
+      $getProducts->where('products.physicalLocationAvailable', '=', '1');
+    }
+    if($specOff == 1){
+      $getProducts->where('products.specialOffersAvailable', '=', '1');
+    }
+
     $getProducts = $getProducts->select('companies.name', 'companies.description', 'companies.website','products.id', 'products.name', 'products.summary', 'products.riskLevel', 'products.fees', 'products.performance',
     'products.minInvestment', 'products.physicalLocationAvailable', 'products.specialOffersAvailable', 'products.isStock', 'products.isBond', 'products.isMutualFund', 'products.isETF', 'products.isRetirement', 'products.isIndexFund')
     ->orderby('products.'.$type, $order)
     ->get();
+
 
     $resultProducts = [];
 
@@ -183,6 +193,34 @@ class InfoController extends Controller
 
       return Response::json(['resultProducts' => $resultProducts, 'message' => 'We currently have no products that match your search criteria', 'messageNum' => '0', 'searchCriteria' => $searchCriteria]);
     }
+  }
+
+  public function getProducts2(Request $request, $type = "name", $order = "asc")
+  {
+    $optPackages = Option::select('options.packages')->where('options.userID', '=', '1')->get();
+    $optRiskLevel = Option::select('options.riskLevel')->where('options.userID', '=', '1')->get();
+    $optMinInv = Option::select('options.minInvestment')->where('options.userID', '=', '1')->get();
+
+    $getPackages = explode(',', $optPackages[0]->packages);
+    $getRiskLevel = $optRiskLevel[0]->riskLevel;
+    $getMinInv = $optMinInv[0]->minInvestment;
+
+    $showProducts = Product::where('products.riskLevel', '=', $getRiskLevel);
+
+    foreach($getPackages as $x){
+      $showProducts->whereIn('products.packages', $x);
+    }
+    $showProducts = $showProducts->where('products.minInvestment', '<=', $getMinInv)
+    ->orderby('name', 'asc')->get();
+
+
+
+
+
+    $getPackages1 = Package::whereIn('packages.id', $getPackages)->get();
+
+
+    return Response::json(['messageNum' => '1', 'optPackages' => $optPackages[0]->packages, 'optRiskLevel' => $optRiskLevel, '$optMinInv' => $optMinInv, 'getPackages' => $getPackages, 'getRiskLevel' => $getRiskLevel, 'getMinInv' => $getMinInv, 'showProducts' => $showProducts]);
   }
 
 
