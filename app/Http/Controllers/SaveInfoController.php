@@ -9,8 +9,6 @@ use Purifier;
 use App\Product;
 use App\Option;
 use App\Copmany;
-use App\RiskLevel;
-use App\Package;
 
 class InfoController extends Controller
 {
@@ -62,7 +60,7 @@ class InfoController extends Controller
   }
 
 
-  public function getProducts(Request $request, $type, $order, $physLoc, $specOff)
+  public function getProducts(Request $request, $type = "name", $order = "asc")
   {
     $rules = [
       'userID' => 'required',
@@ -90,7 +88,7 @@ class InfoController extends Controller
     $getProducts = Product::leftJoin('companies', 'companyID', '=', 'companies.id');
 
     if ($riskLevel != NULL) {
-      $getProducts->where('products.riskLevel', '=', $riskLevel);
+      $getProducts->where('products.riskLevel', '=', 1);
       $searchCriteria[] = $riskLevel;
     }
 
@@ -99,87 +97,67 @@ class InfoController extends Controller
       $searchCriteria[] = $minInvestment;
     }
 
-    if($physLoc == 1){
-      $getProducts->where('products.physicalLocationAvailable', '=', '1');
-    }
-    if($specOff == 1){
-      $getProducts->where('products.specialOffersAvailable', '=', '1');
-    }
-
     $getProducts = $getProducts->select('companies.name', 'companies.description', 'companies.website','products.id', 'products.name', 'products.summary', 'products.riskLevel', 'products.fees', 'products.performance',
     'products.minInvestment', 'products.physicalLocationAvailable', 'products.specialOffersAvailable', 'products.isStock', 'products.isBond', 'products.isMutualFund', 'products.isETF', 'products.isRetirement', 'products.isIndexFund')
     ->orderby('products.'.$type, $order)
     ->get();
 
-
     $resultProducts = [];
 
-    foreach($getProducts as $key => $product)
-    {
-      if($isStock != NULL && $isStock != 0) {
+    if($isStock != NULL && $isStock != 0) {
+      foreach($getProducts as $key => $product)
+      {
         if($product->isStock == $isStock) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-
-          }
-          if(!in_array('Stocks', $searchCriteria)) {
-            $searchCriteria[] = 'Stocks';
-          }
+          $resultProducts[] = $product;
         }
       }
-      if($isBond != NULL && $isBond != 0) {
-        if($product->isBond == $isBond) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-          }
-          if(!in_array('Bonds', $searchCriteria)) {
-            $searchCriteria[] = 'Bonds';
-          }
-        }
-      }
-      if($isMutualFund != NULL && $isMutualFund != 0) {
-        if($product->isMutualFund == $isMutualFund) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-          }
-          if(!in_array('Mutual funds', $searchCriteria)){
-            $searchCriteria[] = 'Mutual funds';
-          }
-        }
-      }
-      if($isETF != NULL && $isETF != 0) {
-        if($product->isETF == $isETF) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-          }
-          if(!in_array('EX Trade funds', $searchCriteria)){
-            $searchCriteria[] = 'EX Trade funds';
-          }
-        }
-
-      }
-      if($isRetirement != NULL && $isRetirement != 0) {
-        if($product->isRetirement == $isRetirement) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-          }
-          if(!in_array('Retirement', $searchCriteria)){
-            $searchCriteria[] = 'Retirement';
-          }
-        }
-
-      }
-      if($isIndexFund != NULL && $isIndexFund != 0) {
-        if($product->isIndexFund == $isIndexFund) {
-          if(!in_array($product, $resultProducts)) {
-            $resultProducts[] = $product;
-            $searchCriteria[] = 'Index funds';
-          }
-        }
-
-      }
+      $searchCriteria[] = 'Stocks';
     }
-
+    if($isBond != NULL && $isBond != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isBond == $isBond) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'Bonds';
+    }
+    if($isMutualFund != NULL && $isMutualFund != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isMutualFund == $isMutualFund) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'Mutual funds';
+    }
+    if($isETF != NULL && $isETF != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isETF == $isETF) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'EX Trade funds';
+    }
+    if($isRetirement != NULL && $isRetirement != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isRetirement == $isRetirement) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'Retirement';
+    }
+    if($isIndexFund != NULL && $isIndexFund != 0) {
+      foreach($getProducts as $key => $product)
+      {
+        if($product->isIndexFund == $isIndexFund) {
+          $resultProducts[] = $product;
+        }
+      }
+      $searchCriteria[] = 'Index funds';
+    }
 
     if (empty($resultProducts)) {
       $resultProducts = $getProducts;
@@ -193,34 +171,6 @@ class InfoController extends Controller
 
       return Response::json(['resultProducts' => $resultProducts, 'message' => 'We currently have no products that match your search criteria', 'messageNum' => '0', 'searchCriteria' => $searchCriteria]);
     }
-  }
-
-  public function getProducts2(Request $request, $type = "name", $order = "asc")
-  {
-    $optPackages = Option::select('options.packages')->where('options.userID', '=', '1')->get();
-    $optRiskLevel = Option::select('options.riskLevel')->where('options.userID', '=', '1')->get();
-    $optMinInv = Option::select('options.minInvestment')->where('options.userID', '=', '1')->get();
-
-    $getPackages = explode(',', $optPackages[0]->packages);
-    $getRiskLevel = $optRiskLevel[0]->riskLevel;
-    $getMinInv = $optMinInv[0]->minInvestment;
-
-    $showProducts = Product::where('products.riskLevel', '=', $getRiskLevel);
-
-    foreach($getPackages as $x){
-      $showProducts->whereIn('products.packages', $x);
-    }
-    $showProducts = $showProducts->where('products.minInvestment', '<=', $getMinInv)
-    ->orderby('name', 'asc')->get();
-
-
-
-
-
-    $getPackages1 = Package::whereIn('packages.id', $getPackages)->get();
-
-
-    return Response::json(['messageNum' => '1', 'optPackages' => $optPackages[0]->packages, 'optRiskLevel' => $optRiskLevel, '$optMinInv' => $optMinInv, 'getPackages' => $getPackages, 'getRiskLevel' => $getRiskLevel, 'getMinInv' => $getMinInv, 'showProducts' => $showProducts]);
   }
 
 
