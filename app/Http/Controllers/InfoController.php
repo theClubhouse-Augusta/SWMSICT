@@ -207,9 +207,8 @@ class InfoController extends Controller
 
     $showProducts = Product::where('products.riskLevel', '=', $getRiskLevel);
 
-    foreach($getPackages as $x){
-      $showProducts->whereIn('products.packages', $x);
-    }
+    $showProducts->where('products.isStock', '=', '1');
+
     $showProducts = $showProducts->where('products.minInvestment', '<=', $getMinInv)
     ->orderby('name', 'asc')->get();
 
@@ -220,11 +219,8 @@ class InfoController extends Controller
     $getPackages1 = Package::whereIn('packages.id', $getPackages)->get();
 
 
-    return Response::json(['messageNum' => '1', 'optPackages' => $optPackages[0]->packages, 'optRiskLevel' => $optRiskLevel, '$optMinInv' => $optMinInv, 'getPackages' => $getPackages, 'getRiskLevel' => $getRiskLevel, 'getMinInv' => $getMinInv, 'showProducts' => $showProducts]);
+    return Response::json(['messageNum' => '1', 'optPackages' => $optPackages[0]->packages, 'optRiskLevel' => $optRiskLevel, '$optMinInv' => $optMinInv, 'getPackages1' => $getPackages1, 'getRiskLevel' => $getRiskLevel, 'getMinInv' => $getMinInv, 'showProducts' => $showProducts]);
   }
-
-
-
 
 
 }
