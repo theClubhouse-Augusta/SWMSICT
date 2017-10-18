@@ -26,16 +26,16 @@ class InfoController extends Controller
     $isRetirement = $request->input('isRetirement');
     $isIndexFund = $request->input('isIndexFund');
 
-    $userID = 1;
 
+    if ($userID != 0){
     $checkOptions = Option::where('userID', '=', $userID)->first();
 
     if (!empty($checkOptions)) {
-      $temp = Option::where('userID', '=', $userID)
-            ->update(['riskLevel' => $riskLevel, 'minInvestment' => $minInvestment, 'isStock' => $isStock, 'isBond' => $isBond, 'isMutualFund' => $isMutualFund, 'isETF' => $isETF, 'isRetirement' => $isRetirement, 'isIndexFund' => $isIndexFund ]);
-      return Response::json(['success' => 'Your search criteria has been updated.', 'temp' => $temp]);
-    }
-    else {
+        $temp = Option::where('userID', '=', $userID)
+        ->update(['riskLevel' => $riskLevel, 'minInvestment' => $minInvestment, 'isStock' => $isStock, 'isBond' => $isBond, 'isMutualFund' => $isMutualFund, 'isETF' => $isETF, 'isRetirement' => $isRetirement, 'isIndexFund'  => $isIndexFund ]);
+        return Response::json(['success' => 'Your search criteria has been updated.', 'temp' => $temp]);
+      }
+    else{
       $option = new Option;
       $option->userID = $userID;
       $option->isStock = $isStock;
@@ -49,6 +49,7 @@ class InfoController extends Controller
       $option->save();
       return Response::json(['success' => 'Your search criteria has been saved.']);
     }
+  }
 
 
   }
@@ -106,7 +107,7 @@ class InfoController extends Controller
       $getProducts->where('products.specialOffersAvailable', '=', '1');
     }
 
-    $getProducts = $getProducts->select('companies.name', 'companies.description', 'companies.website','products.id', 'products.name', 'products.summary', 'products.riskLevel', 'products.fees', 'products.performance',
+    $getProducts = $getProducts->select('companies.name as companyName', 'companies.description', 'companies.website', 'companies.image', 'products.id', 'products.name', 'products.summary', 'products.riskLevel', 'products.fees', 'products.performance',
     'products.minInvestment', 'products.physicalLocationAvailable', 'products.specialOffersAvailable', 'products.isStock', 'products.isBond', 'products.isMutualFund', 'products.isETF', 'products.isRetirement', 'products.isIndexFund')
     ->orderby('products.'.$type, $order)
     ->get();
@@ -207,9 +208,8 @@ class InfoController extends Controller
 
     $showProducts = Product::where('products.riskLevel', '=', $getRiskLevel);
 
-    foreach($getPackages as $x){
-      $showProducts->whereIn('products.packages', $x);
-    }
+    $showProducts->where('products.isStock', '=', '1');
+
     $showProducts = $showProducts->where('products.minInvestment', '<=', $getMinInv)
     ->orderby('name', 'asc')->get();
 
@@ -220,11 +220,8 @@ class InfoController extends Controller
     $getPackages1 = Package::whereIn('packages.id', $getPackages)->get();
 
 
-    return Response::json(['messageNum' => '1', 'optPackages' => $optPackages[0]->packages, 'optRiskLevel' => $optRiskLevel, '$optMinInv' => $optMinInv, 'getPackages' => $getPackages, 'getRiskLevel' => $getRiskLevel, 'getMinInv' => $getMinInv, 'showProducts' => $showProducts]);
+    return Response::json(['messageNum' => '1', 'optPackages' => $optPackages[0]->packages, 'optRiskLevel' => $optRiskLevel, '$optMinInv' => $optMinInv, 'getPackages1' => $getPackages1, 'getRiskLevel' => $getRiskLevel, 'getMinInv' => $getMinInv, 'showProducts' => $showProducts]);
   }
-
-
-
 
 
 }

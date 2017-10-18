@@ -1,0 +1,23 @@
+
+getSessionData = () => {
+  let data = {};
+  data.userID = 1;
+  data.minInvestment = sessionStorage.getItem('minInvestment');
+  data.riskLevel = sessionStorage.getItem('riskLevel');
+  data.isStock = sessionStorage.getItem('isStock');
+  data.isBond = sessionStorage.getItem('isBond');
+  data.isMutualFund = sessionStorage.getItem('isMutualFund');
+  data.isETF = sessionStorage.getItem('isETF');
+  data.isIndexFund = sessionStorage.getItem('isIndexFund');
+  data.isRetirement = sessionStorage.getItem('isRetirement');
+
+  return data;
+}
+
+
+
+<div>
+<div><h3>{this.getSessionData().userID}</h3></div>
+<span>Risk level: {this.getSessionData().riskLevel} </span><span>Minimum investment: ${this.getSessionData().minInvestment} </span><span>Type of investment: {this.getSessionData().isStock} </span>
+<div><br/><br/></div>
+</div>

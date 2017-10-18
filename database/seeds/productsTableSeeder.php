@@ -16,7 +16,7 @@ class productsTableSeeder extends Seeder
     {
       DB::table('products')->insert([
             'companyID' => 1,
-            'name' => 'Vanguard Target Retirement 2015 Fund (VTENX)',
+            'name' => 'Target Retirement 2015 Fund (VTENX)',
             'summary' => "The 2015 Fund invests in 5 Vanguard index funds, holding approximately 70% of assets in bonds and 30% in stocks. Investors in this fund should be able to tolerate the volatility of the stock and bond markets. <br/>
             Net asset value (value per share of a Mutual fund or ETF at a given date and time) $15.75.<br/>
             Average annual 10-year return – 6.92%<br/>
@@ -37,7 +37,7 @@ class productsTableSeeder extends Seeder
       ]);
       DB::table('products')->insert([
             'companyID' => 1,
-            'name' => 'Vanguard Target Retirement 2025 Fund (VTTVX)',
+            'name' => 'Target Retirement 2025 Fund (VTTVX)',
             'summary' => "The 2025 fund invests in 4 Vanguard index funds, holding approximately 65% of assets in stocks and 35% in bonds. You may wish to consider this fund if you’re planning to retire between 2023 and 2027.<br/>
             Net asset value $18.25<br/>
             Average annual return 5-year 8.85%<br/>
@@ -58,7 +58,7 @@ class productsTableSeeder extends Seeder
       ]);
       DB::table('products')->insert([
             'companyID' => 1,
-            'name' => 'Vanguard Target Retirement 2060 Fund (VTTSX)',
+            'name' => 'Target Retirement 2060 Fund (VTTSX)',
             'summary' => "The 2060 fund invests in 4 Vanguard index funds, holding approximately 90% of assets in stocks and 10% in bonds. You may wish to consider this fund if you’re planning to retire between 2058 and 2062.<br/>
             Net asset value $33.51<br/>
             Average annual return 5-year 10.87%<br/>
@@ -80,7 +80,7 @@ class productsTableSeeder extends Seeder
 
       DB::table('products')->insert([
             'companyID' => 2,
-            'name' => 'Schwab Target 2015 Index Fund SWYBX',
+            'name' => 'Target 2015 Index Fund SWYBX',
             'summary' => "The fund seeks to achieve its investment objective by investing primarily in affiliated Schwab exchange-traded funds (ETFs). It has a policy to invest, under normal circumstances, at least 80% of its assets (net assets, plus the amount of any borrowings for investment purposes) in underlying funds that are managed to seek investment returns that track particular market indices. The fund is managed based on the specific retirement date (target date) included in its name and assumes a retirement age of 65.<br/>
             Net asset value $10.61<br/>
             Average annual return 5-year 6.57%<br/>
@@ -101,7 +101,7 @@ class productsTableSeeder extends Seeder
       ]);
       DB::table('products')->insert([
             'companyID' => 2,
-            'name' => 'Schwab Target 2025 Index Fund SWYDX',
+            'name' => 'Target 2025 Index Fund SWYDX',
             'summary' => "The fund seeks to achieve its investment objective by investing primarily in affiliated Schwab exchange-traded funds (ETFs). It has a policy to invest, under normal circumstances, at least 80% of its assets (net assets, plus the amount of any borrowings for investment purposes) in underlying funds that are managed to seek investment returns that track particular market indices. The fund is managed based on the specific retirement date (target date) included in its name and assumes a retirement age of 65.<br/>
             Net asset value $11.04<br/>
             Average annual return 5-year 7.46%<br/>
@@ -122,7 +122,7 @@ class productsTableSeeder extends Seeder
       ]);
       DB::table('products')->insert([
             'companyID' => 2,
-            'name' => 'Schwab Target 2060 Index Fund SWYNX',
+            'name' => 'Target 2060 Index Fund SWYNX',
             'summary' => "Target-date portfolios provide a diversified exposure to stocks, bonds, and cash for those investors who have a specific date in mind (in this case, the year 2060 and beyond) for retirement. These portfolios aim to provide investors with an optimal level of return and risk, based solely on the target date. Management adjusts the allocation among asset classes to more-conservative mixes as the target date approaches, following a preset glide path. A target-date portfolio is part of a series of funds offering multiple retirement dates to investors.<br/>
             Net asset value $11.59<br/>
             Average annual return 5-year 10.79%<br/>
@@ -205,7 +205,7 @@ class productsTableSeeder extends Seeder
 
       DB::table('products')->insert([
             'companyID' => 4,
-            'name' => 'iShares Core Conservative Allocation ETF (AOK)',
+            'name' => 'Core Conservative Allocation ETF (AOK)',
             'summary' => "The iShares Core Conservative Allocation ETF seeks to track the investment results of an index composed of a portfolio of underlying equity and fixed income funds intended to represent a conservative target risk allocation strategy.<br/>
             Net asset value $34.45<br/>
             Average annual return 5-year 4.65%<br/>
@@ -225,7 +225,7 @@ class productsTableSeeder extends Seeder
       ]);
       DB::table('products')->insert([
             'companyID' => 4,
-            'name' => 'iShares Core Moderate Allocation ETF (AOM)',
+            'name' => 'Core Moderate Allocation ETF (AOM)',
             'summary' => "The iShares Core Moderate Allocation ETF seeks to track the investment results of an index composed of a portfolio of underlying equity and fixed income funds intended to represent a moderate target risk allocation strategy.<br/>
             Net asset value $37.95<br/>
             Average annual return 5-year 5.97%<br/>
@@ -245,7 +245,7 @@ class productsTableSeeder extends Seeder
       ]);
       DB::table('products')->insert([
             'companyID' => 4,
-            'name' => 'iShares Core Aggressive Allocation ETF (AOA)',
+            'name' => 'Core Aggressive Allocation ETF (AOA)',
             'summary' => "The iShares Core Aggressive Allocation ETF seeks to track the investment results of an index composed of a portfolio of underlying equity and fixed income funds intended to represent an aggressive target risk allocation strategy.<br/>
             Net asset value $53.55<br/>
             Average annual return 5-year 10.32%<br/>
